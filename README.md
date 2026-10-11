@@ -145,3 +145,22 @@ Machine provisioning (users, theming, systemd, Tailscale, Postgres, Vault),
 the tmux cockpit (`ntm`), and multi-machine sync — those belong to a long-lived
 VPS setup, not to an agent's tool layer. The upstream `install.sh` covers them;
 this file does not.
+
+## 9. Custom skills (symlinked — updates flow via git pull)
+
+The user's skill repos are cloned (not copied) so skill updates propagate:
+
+```bash
+# Clone once (persistent location)
+git clone --depth 1 https://github.com/aaaronmiller/custom-skills.git ~/workspace/repos/custom-skills
+
+# Symlink the installed skills at their canonical paths
+for s in aaron-job-search deep-research make-it-funny strata weekly-report-suite; do
+  ln -s ~/workspace/repos/custom-skills/$s ~/workspace/skills/$s
+done
+```
+
+To pick up upstream skill changes: `git -C ~/workspace/repos/custom-skills pull`
+— the symlinks resolve to the new content immediately, no reinstall step.
+Old copies are kept under `~/workspace/skills/.backup-<date>-custom-skills/`
+until confirmed unneeded.
