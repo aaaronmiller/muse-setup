@@ -155,9 +155,16 @@ The user's skill repos are cloned (not copied) so skill updates propagate:
 git clone --depth 1 https://github.com/aaaronmiller/custom-skills.git ~/workspace/repos/custom-skills
 
 # Symlink the installed skills at their canonical paths
-for s in aaron-job-search deep-research make-it-funny strata weekly-report-suite; do
+for s in aaron-job-search deep-research make-it-funny weekly-report-suite; do
   ln -s ~/workspace/repos/custom-skills/$s ~/workspace/skills/$s
 done
+
+# Note: the old `strata` skill was replaced 2026-10-12 by `create-new-project`
+# v2.1.0, installed as a real copy from strata-v2.zip (Drive drop). It declares
+# itself the STRATA successor (lineage "create-new-project 1.x + STRATA 2.0")
+# and triggers on "strata". The old strata symlink is backed up at
+# ~/workspace/skills/.backup-20261012-strata/; the clone's strata/ content is
+# untouched, so re-adding the old symlink would downgrade to STRATA 1.x.
 ```
 
 To pick up upstream skill changes: `git -C ~/workspace/repos/custom-skills pull`
